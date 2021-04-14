@@ -55,10 +55,10 @@ class ServerDiscoverer(object):
             servers[priority].append((target, port))
 
         # TODO: support weighting?
-        for server_list in servers.itervalues():
+        for server_list in servers.values():
             random.shuffle(server_list)
 
-        self._hosts = [host for priority in sorted(servers.iterkeys())
+        self._hosts = [host for priority in sorted(servers.keys())
                        for host in servers[priority]]
         self._expires = datetime.utcfromtimestamp(results.expiration)
 
@@ -79,20 +79,6 @@ def ldap_auto_discover(domain):
     return ' '.join('ldap://{}:{}'.format(target, port)
                     for target, port in hosts)
 
-def ldaps_auto_discover(domain):
-    """
-    Returns a space-separated list of LDAPS servers for this domain.
-
-    This uses SRV records to discover local LDAP servers and returns them in
-    a prioritized, space-separated list for python-ldap's initialize function.
-    """
-    global discoverer
-    if discoverer is None:
-        discoverer = ServerDiscoverer("ldap", "tcp", domain)
-    hosts = discoverer.hosts()
-
-    return ' '.join('ldaps://{}:{}'.format(target, "636")
-                    for target, port in hosts)
-
 if __name__ == "__main__":
     print(ldap_auto_discover(sys.argv[1]))
+
