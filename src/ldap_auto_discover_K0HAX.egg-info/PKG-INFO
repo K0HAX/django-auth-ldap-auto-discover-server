@@ -1,0 +1,51 @@
+Metadata-Version: 2.1
+Name: ldap-auto-discover-K0HAX
+Version: 0.0.1
+Summary: Automatic discover of LDAP services
+Home-page: https://github.com/K0HAX/django-auth-ldap-auto-discover-server
+Author: Michael Englehorn
+Author-email: michael+pypi@englehorn.com
+License: UNKNOWN
+Project-URL: Bug Tracker, https://github.com/K0HAX/django-auth-ldap-auto-discover-server/issues
+Description: Automatic discover of LDAP services
+        ===================================
+        
+        This addon will add automatic discovery of the LDAP server to use
+        for django-ldap-auth. It requires version 1.1.6+ of django-ldap-auth
+        and dnspython.
+        
+        If your company/organization is publishing the LDAP servers via DNS
+        SRV records you just need to add the following to you django settings.py:
+        ```
+        from ldap_auto_discover import discover_ldap_servers
+        
+        AUTH_LDAP_SERVER_URI = lambda: discover_ldap_servers("your.domain.com")
+        ```
+        
+        Troubleshooting
+        ---------------
+        
+        You can check what records are published via:
+        ```
+        $ nslookup -type=SRV _ldap._tcp.your.domain.com
+        ```
+        
+        and compare to:
+        ```
+        $ python ldap_auto_discover.py your.domain.com
+        ```
+        
+        
+        Tests
+        -----
+        
+        Run the tests via
+        ```
+        $ PYTHONPATH=. python tests/test_discover.py
+        ```
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
