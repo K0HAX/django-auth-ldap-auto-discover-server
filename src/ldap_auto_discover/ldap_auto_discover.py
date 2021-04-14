@@ -95,4 +95,4 @@ def ldaps_auto_discover(domain):
                     for target, port in hosts)
 
 if __name__ == "__main__":
-    print ldap_auto_discover(sys.argv[1])
+    print(ldap_auto_discover(sys.argv[1]))
